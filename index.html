@@ -14,13 +14,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- AXIOS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  
 </head>
 <body>
     <button type="button" class="btn btn-primary btn-lg" id="btn-cat-prod">Afiseaza proiecte</button>
 <div class="content">
     <div class="row">
         <!-- Coloana pentru navigatorul de proiecte -->
-        <div class="col-lg-4 side-nav">
+        <div class="col-lg-4 side-nav" id="side-nav">
            <p>Lista proiectelor in desfasurare. Pentru mai multe detalii despre un proiect apasati pe numele acestuia.</p><hr>
             <!-- Lista cu proiecte -->
           
@@ -40,7 +43,7 @@
                 <div class="project-task-heading">
                     <div style="display: inline-block;">
                         <h2 id="task-name">Denumire</h2>
-                        <button type="button" class="btn btn-danger btn-md" id="btn-delete">Sterge sarcina</button>
+                        <button type="button" class="btn btn-danger btn-md" id="btn-delete" onclick="deleteTask(1)">Sterge sarcina</button>
                    
                     </div>
                     <i class="far fa-calendar-check fa-7x"></i>
@@ -49,7 +52,7 @@
                 <div class="project-task-heading">
                     <div style="display: inline-block;">
                         <h2 id="task-name">Denumire</h2>
-                        <button type="button" class="btn btn-danger btn-md" id="btn-delete">Sterge sarcina</button>
+                        <button type="button" class="btn btn-danger btn-md" id="btn-delete" >Sterge sarcina</button>
                    
                     </div>
                     <i class="far fa-calendar-check fa-7x"></i>
@@ -81,5 +84,7 @@
         </div>
     </div>  
 </div>
+  <!-- Java Script -->
+  <script src="index.js"></script>
 </body>
 </html>

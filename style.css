@@ -4,6 +4,7 @@
 /* First column */
 .side-nav{
     background-color: ghostwhite;
+    display: none;
 }
 .side-nav p{
     font-weight:bold;
