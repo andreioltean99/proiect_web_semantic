@@ -16,10 +16,6 @@ btn1.addEventListener("click", function(){
   });
 })
 //-----------------------------------------
-btnInsert.addEventListener('focus', function(){
-    console.log("fortmularul este trimis");
-})
-
 function deleteTask(taskNumber){
       // Se efectueaza cerea catre server
 axios.post('server.php', {
@@ -38,7 +34,19 @@ btnInsert.addEventListener('click', function(event){
 })
 
 btnInsert.addEventListener('mouseover', function(){
-    console.log("insereaza date");
+    // Se efectueaza cerea catre server
+   let denumireTask= document.getElementById('denumire-task');
+   let task = document.getElementById('task');
+ axios.post('server.php', {
+    insertDenumireTask: denumireTask,
+    insertTask: task
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 })
 
 
