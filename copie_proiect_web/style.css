@@ -1,0 +1,53 @@
+.content{
+  margin: 2vh 3vw 3vw;
+}
+/* First column */
+.side-nav{
+    background-color: ghostwhite;
+    display: none;
+}
+.side-nav p{
+    font-weight:bold;
+    font-size: 24px;
+}
+#btn-cat-prod{
+    margin-left: 3vw;
+    margin-top: 2vh;
+}
+
+.projects-list{
+    margin-top: 2vh;
+    font-size: 26px;
+}
+/* Second column */
+.main-area{
+    text-align: center;
+}
+#main-area{
+    display: none;
+}
+.main-area p{
+    font-weight: bold;
+    font-size: 24px;
+}
+.project-task-content{
+  vertical-align: super;
+  display: inline-block;
+}
+/* Zona C */
+.footer{
+    margin-top:5vh;
+   background-color: rgb(236, 236, 236);
+}
+#footer{
+    display: none;
+}
+#btn-insert{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+
+
+
