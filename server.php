@@ -32,7 +32,15 @@ if (isset($data['retrieveTasks'])) {
 if (isset($data['taskToDelete'])) {
   echo $data['taskToDelete'];
   // var_dump(http_response_code(200)); // se arunca eroare
-
+}
+if(isset($data['insertDenumireTask']) && isset($data['insertTask'])){
+    $denumireTask = $data['insertDenumireTask'];
+    $task = $data['insertTask'];
+    //echo ['denumire'=>$denumireTask, 'task'=>$task];
+    echo $denumireTask;
+}
+else{
+    var_dump(http_response_code(500)); // se arunca eroare
 }
 
 
