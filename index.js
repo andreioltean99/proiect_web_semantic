@@ -18,7 +18,7 @@ for(let i=0; i<splitstring.length-1; i++){
 var textnode = document.createTextNode(splitstring[i]);       
 node.appendChild(textnode); 
 node.setAttribute('id',`${splitstring[i]+'_prj_id'}`);
-node.setAttribute('onclick',`redirect('${splitstring[i]}')`);          
+node.setAttribute('onclick',`showTasksForAProject('${splitstring[i]}')`);          
 document.getElementById("projects-list").appendChild(node); 
 
 }
@@ -29,6 +29,22 @@ document.getElementById("projects-list").appendChild(node);
 })
 //-----------------------------------------
 
+function showTasksForAProject(projectName){
+  document.getElementById('project-name').innerHTML="'"+projectName+"'";
+  document.getElementById('main-area').style.display='block'; // se afiseaza sectiunea cu toate proiectele preluate din BD
+  document.getElementById('footer').style.display='block'; // se afiseaza sectiunea cu toate proiectele preluate din BD
+  axios.post('server.php', {
+    retrieveTasks: projectName
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+ }
+
+ //----------------------------------------
 function deleteTask(taskNumber){
       // Se efectueaza cerea catre server
 axios.post('server.php', {
@@ -51,9 +67,7 @@ btnInsert.addEventListener('mouseover', function(){
 })
 
 
-function redirect(projectName){
- console.log(projectName);
-}
+
 
 
  

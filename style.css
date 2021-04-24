@@ -14,6 +14,7 @@
     margin-left: 3vw;
     margin-top: 2vh;
 }
+
 .projects-list{
     margin-top: 2vh;
     font-size: 26px;
@@ -21,6 +22,9 @@
 /* Second column */
 .main-area{
     text-align: center;
+}
+#main-area{
+    display: none;
 }
 .main-area p{
     font-weight: bold;
@@ -35,6 +39,14 @@
     margin-top:5vh;
    background-color: rgb(236, 236, 236);
 }
+#footer{
+    display: none;
+}
+#btn-insert{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 
 
 
