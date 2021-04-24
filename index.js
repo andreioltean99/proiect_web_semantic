@@ -50,6 +50,7 @@ btnInsert.addEventListener('mouseover', function(){
     console.log("insereaza date");
 })
 
+
 function redirect(projectName){
  console.log(projectName);
 }
