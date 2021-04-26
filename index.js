@@ -1,7 +1,7 @@
 let btn1 = document.getElementById("btn-cat-prod");
 let btnInsert = document.getElementById("btn-insert");
-
-//---------------------------------------
+let currentProject;
+//--------------------------------------- READ PROJECTS
 btn1.addEventListener("click", function(){
     // Se efectueaza cerea catre server
  axios.post('server.php', {
@@ -27,9 +27,10 @@ document.getElementById("projects-list").appendChild(node);
     console.log(error);
   });
 })
-//-----------------------------------------
+//----------------------------------------- READ TASKS FOR A PROJECT
 
 function showTasksForAProject(projectName){
+  currentProject = projectName;
   document.getElementById('project-name').innerHTML="'"+projectName+"'";
   document.getElementById('main-area').style.display='block'; // se afiseaza sectiunea cu toate proiectele preluate din BD
   document.getElementById('footer').style.display='block'; // se afiseaza sectiunea cu toate proiectele preluate din BD
@@ -44,7 +45,7 @@ function showTasksForAProject(projectName){
   });
  }
 
- //----------------------------------------
+ //---------------------------------------- DELETE TASK
 function deleteTask(taskNumber){
       // Se efectueaza cerea catre server
 axios.post('server.php', {
@@ -57,26 +58,59 @@ axios.post('server.php', {
    console.log(error);
  });
 }
-// ----------------------------------
+
+//---------------------------------------------- UPDATE TASK
+function updateTask(taskNumber){
+  // Se efectueaza cerea catre server
+axios.post('server.php', {
+taskToUpdate: taskNumber
+})
+.then(function (response) {
+console.log(response);
+})
+.catch(function (error) {
+console.log(error);
+});
+}
+
+// ---------------------------------- CREATE TASK
 btnInsert.addEventListener('click', function(event){
     event.preventDefault(); // se previne trimiterea automata
 })
 
 btnInsert.addEventListener('mouseover', function(){
-    // Se efectueaza cerea catre server
-   let denumireTask= document.getElementById('denumire-task');
-   let task = document.getElementById('task');
+ 
+    let denumireTask= document.getElementById('insert-denumire').value;
+    let descriereTask = document.getElementById('insert-descriere').value;
+    let termenTask = document.getElementById('insert-termen').value;
+    let imagineTask = document.getElementById('insert-imagine').value;
+  //  console.log(denumire);
+     // Se efectueaza cerea catre server daca au fost completate toate campurile
+if(currentProject !='' && denumireTask!= '' && descriereTask !='' && termenTask!= '' && imagineTask !=''){
  axios.post('server.php', {
+    project:currentProject,
     insertDenumireTask: denumireTask,
-    insertTask: task
+    insertDescriereTask: descriereTask,
+    insertTermenTask: termenTask,
+    insertImaginetask: imagineTask
   })
   .then(function (response) {
     console.log(response);
+    //se apeleaza din nou functia showTasksForAProject pentru a actualiza informatia
+    showTasksForAProject(currentProject);
   })
   .catch(function (error) {
     console.log(error);
   });
+} 
+// se sterg valorile din campurile input
+ document.getElementById('insert-denumire').value='';
+ document.getElementById('insert-descriere').value='';
+document.getElementById('insert-termen').value='';
+ document.getElementById('insert-imagine').value='';
 })
+
+
 
 
 

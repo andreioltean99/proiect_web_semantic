@@ -41,15 +41,21 @@
                     <div style="display: inline-block;">
                         <h2 id="task-name">Denumire</h2>
                         <button type="button" class="btn btn-danger btn-md" id="btn-delete" onclick="deleteTask(1)">Sterge sarcina</button>
-                   
+                        <button type="button" class="btn btn-warning btn-md" id="btn-delete" onclick="deleteTask(1)">Actualizeaza status</button>
+
                     </div>
-                    <i class="far fa-calendar-check fa-7x"></i>
-                           <p style="font-weight: normal; font-size: 20px; display: inline-block;" id="task-description">de realizat coumincarea cu backendul</p>
-                </div>
+                    <i class="far fa-calendar-check fa-7x"></i><br>
+                           <p style="font-weight: normal; font-size: 20px; display: inline-block;" id="task-description">de realizat coumincarea cu backendul</p><br>
+                           <p style="font-weight: normal; color: red; font-size: 20px; display: inline-block;" id="task-description">12.03.2021</p><br>
+                           <p style="font-weight: normal; font-size: 20px; display: inline-block;" id="task-description">In curs de realizare</p>
+                        </div>
+                        <hr>
                 <div class="project-task-heading">
                     <div style="display: inline-block;">
                         <h2 id="task-name">Denumire</h2>
                         <button type="button" class="btn btn-danger btn-md" id="btn-delete" >Sterge sarcina</button>
+                        <button type="button" class="btn btn-warning btn-md" id="btn-delete" onclick="deleteTask(1)">Actualizeaza status</button>
+
                    
                     </div>
                     <i class="far fa-calendar-check fa-7x"></i>
@@ -59,6 +65,8 @@
                     <div style="display: inline-block;">
                         <h2 id="task-name">Denumire</h2>
                         <button type="button" class="btn btn-danger btn-md" id="btn-delete">Sterge sarcina</button>
+                        <button type="button" class="btn btn-warning btn-md" id="btn-delete" onclick="deleteTask(1)">Actualizeaza status</button>
+
                     </div>
                     <i class="far fa-calendar-check fa-7x"></i>
                            <p style="font-weight: normal; font-size: 20px; display: inline-block;" id="task-description">de realizat coumincarea cu backendul</p>
@@ -74,11 +82,11 @@
         </div>
         <div class="col-lg-6">
             <form>
-                <input type="text" placeholder="Denumire sarcina">
-                <input type="text" name="" id="" placeholder="Executant"><br>
-                <input placeholder="Termen limita" class="textbox-n" type="text" onfocus="(this.type='date')" id="date">
-                <input type="text" placeholder="Imagine"><br>
-                <input type="submit" class="btn btn-success btn-md" id="btn-insert" value="Trimite">
+                <input type="text" id='insert-denumire' placeholder="Denumire sarcina">
+                <input type="text" id='insert-descriere' placeholder="Descriere"><br>
+                <input placeholder="Termen limita" id='insert-termen' class="textbox-n" type="text" onfocus="(this.type='date')" id="date">
+                <input type="text" id='insert-imagine' placeholder="Imagine"><br>
+                <input type="submit" class="btn btn-success btn-md" id="btn-insert" value="Insereaza">
             </form>
         </div>
     </div>  

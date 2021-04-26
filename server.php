@@ -33,14 +33,23 @@ if (isset($data['taskToDelete'])) {
   echo $data['taskToDelete'];
   // var_dump(http_response_code(200)); // se arunca eroare
 }
-if(isset($data['insertDenumireTask']) && isset($data['insertTask'])){
-    $denumireTask = $data['insertDenumireTask'];
-    $task = $data['insertTask'];
-    //echo ['denumire'=>$denumireTask, 'task'=>$task];
-    echo $denumireTask;
+
+// primire cerere de update
+if (isset($data['taskToUpdate'])) {
+  echo $data['taskToUpdate'];
+  // var_dump(http_response_code(200)); // se arunca eroare
 }
-else{
-    var_dump(http_response_code(500)); // se arunca eroare
+
+// primire cerere de inserare
+if (isset($data['project']) && isset($data['insertDenumireTask']) && isset($data['insertDescriereTask']) && isset($data['insertTermenTask'])
+&& isset($data['insertImagineTask'])) {
+  print $data['project'];
+  print $data['insertDenumireTask'];
+  print $data['insertDescriereTask'];
+  print $data['insertTermenTask'];
+  print $data['insertImagineTask'];
+  // var_dump(http_response_code(200)); // se arunca eroare
+
 }
 
 
