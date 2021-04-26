@@ -1,0 +1,6 @@
+SELECT ?proiect WHERE {:WebSemantic :deRealizat ?proiect}
+
+prefix : <http://Alex&Andrei.ro#>
+INSERT DATA {
+  :WebSemantic :deRealizat :taskTest. :taskTest :areTermenLimita [:"1990-10-30"^^xsd:date]; :esteRealizat [:"false"^^xsd:boolean]; :areImagine "test.jpg".
+}

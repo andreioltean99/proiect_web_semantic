@@ -38,7 +38,7 @@ function showTasksForAProject(projectName){
     retrieveTasks: projectName
   })
   .then(function (response) {
-    console.log(response);
+   console.log(response);
   })
   .catch(function (error) {
     console.log(error);
@@ -92,10 +92,10 @@ if(currentProject !='' && denumireTask!= '' && descriereTask !='' && termenTask!
     insertDenumireTask: denumireTask,
     insertDescriereTask: descriereTask,
     insertTermenTask: termenTask,
-    insertImaginetask: imagineTask
+    insertImagineTask: imagineTask
   })
   .then(function (response) {
-    console.log(response);
+   // console.log(response);
     //se apeleaza din nou functia showTasksForAProject pentru a actualiza informatia
     showTasksForAProject(currentProject);
   })

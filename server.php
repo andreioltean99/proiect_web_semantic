@@ -1,12 +1,12 @@
 <?php
 require 'vendor/autoload.php';
-$data = json_decode(file_get_contents("php://input"), TRUE);
 
+
+$data = json_decode(file_get_contents("php://input"), TRUE);
 // primire cerere de afisare proiecte
 if (isset($data['initRequest']) && $data['initRequest'] == true) {
-
-  //echo "cererea a fost declansata";
   $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest");
+  //echo "cererea a fost declansata";
 
   // lista proiectelor
   $interogare = "SELECT ?denumire WHERE {?proiect rdfs:label ?denumire}";
@@ -14,9 +14,9 @@ if (isset($data['initRequest']) && $data['initRequest'] == true) {
   $proiecte = array();
 
   foreach ($rezultate as $rezultat) {
-  //  json_encode($proiecte);
+    //  json_encode($proiecte);
     // print($proiecte);
-   print($rezultat->denumire."|");
+    print($rezultat->denumire . "|");
   }
   // var_dump(http_response_code(200)); // se arunca eroare
 }
@@ -41,15 +41,17 @@ if (isset($data['taskToUpdate'])) {
 }
 
 // primire cerere de inserare
-if (isset($data['project']) && isset($data['insertDenumireTask']) && isset($data['insertDescriereTask']) && isset($data['insertTermenTask'])
-&& isset($data['insertImagineTask'])) {
-  print $data['project'];
-  print $data['insertDenumireTask'];
-  print $data['insertDescriereTask'];
-  print $data['insertTermenTask'];
-  print $data['insertImagineTask'];
-  // var_dump(http_response_code(200)); // se arunca eroare
+if (
+  isset($data['project']) && isset($data['insertDenumireTask']) && isset($data['insertDescriereTask']) && isset($data['insertTermenTask'])
+  && isset($data['insertImagineTask'])
+) {
+  $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
 
+  $insertStatement = "prefix : <http://Alex&Andrei.ro#>
+   INSERT {
+     ?prjName :deRealizat :" . $data['insertDenumireTask'] . ". 
+     :" . $data['insertDenumireTask'] . " 
+     :areTermenLimita [:'" . $data['insertTermenTask'] . "'^^xsd:date]; 
+     :esteRealizat [:'false'^^xsd:boolean]; :areImagine '" . $data['insertImagineTask'] . "'.} WHERE {?prjName rdfs:label '" . $data['project'] . "'}";
+   $client->update($insertStatement);
 }
-
-
