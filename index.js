@@ -1,9 +1,11 @@
 let btn1 = document.getElementById("btn-cat-prod");
 let btnInsert = document.getElementById("btn-insert");
 let currentProject;
+let contentLoaded = false; // asigura afisarea proiectelor o singura data
 //--------------------------------------- READ PROJECTS
 btn1.addEventListener("click", function () {
   // Se efectueaza cerea catre server
+  if(!contentLoaded){
   axios.post('server.php', {
     initRequest: true
   })
@@ -20,12 +22,13 @@ btn1.addEventListener("click", function () {
         node.setAttribute('id', `${splitstring[i] + '_prj_id'}`);
         node.setAttribute('onclick', `showTasksForAProject('${splitstring[i]}')`);
         document.getElementById("projects-list").appendChild(node);
-
+        contentLoaded=true;
       }
     })
     .catch(function (error) {
       console.log(error);
     });
+  }
 })
 //----------------------------------------- READ TASKS FOR A PROJECT
 
@@ -68,7 +71,7 @@ function updateTask(taskNumber) {
     taskToUpdate: taskNumber
   })
     .then(function (response) {
-      console.log(response);
+      showTasksForAProject(currentProject);
     })
     .catch(function (error) {
       console.log(error);

@@ -58,3 +58,24 @@ WHERE{
 }
 
 
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix : <http://Alex&Andrei.ro#>
+DELETE WHERE {
+ 	:cautareDate :esteRealizat ?bol.
+}
+
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix : <http://Alex&Andrei.ro#>
+
+INSERT{
+  :cautareDate :esteRealizat [:"true"^^xsd:boolean].
+}
+WHERE{
+  ?prjName rdfs:label 'Business Intelligence'.
+}
+
+
+
+

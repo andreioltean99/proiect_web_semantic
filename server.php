@@ -42,6 +42,29 @@ if (isset($data['project']) && isset($data['taskToDelete'])) {
 //-------------------------------------------------------------------
 // primire cerere de update
 if (isset($data['project']) &&isset($data['taskToUpdate'])) {
+
+  $taskStatus; $taskStatusUpdate;
+$client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest");
+
+$interogare = "PREFIX : <http://Alex&Andrei.ro#>
+SELECT ?nod ?task ?valoare WHERE {
+  :TEST :esteRealizat ?nod.
+  ?nod <http://Alex&Andrei.ro#> ?valoare.
+  {
+  SELECT ?task WHERE {
+   :WebSemantic ?relation :TEST.  }}}";
+$rezultate = $client->query($interogare);
+
+ foreach ($rezultate as $rezultat) {
+  $taskStatus = $rezultat->valoare->getValue(); 
+}
+if($taskStatus){
+  $taskStatusUpdate = 'false';
+}else{
+  $taskStatusUpdate = 'true';
+}
+
+
   $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
 
    $updateStatement1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -52,10 +75,11 @@ if (isset($data['project']) &&isset($data['taskToUpdate'])) {
    ";
  $client->update($updateStatement1);
  $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
+
   $updateStatement2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   prefix : <http://Alex&Andrei.ro#>
   INSERT{
-    :".$data['taskToUpdate']." :esteRealizat [:'true'^^xsd:boolean].
+    :".$data['taskToUpdate']." :esteRealizat [:'".$taskStatusUpdate."'^^xsd:boolean].
   }
   WHERE{
     ?prjName rdfs:label '".$data['project']."'.
@@ -82,4 +106,5 @@ if (
   $client->update($insertStatement);
 }
 //----------------------------------------------------------------------
+
 
