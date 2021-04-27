@@ -1,97 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>RDF PROJECT</title>
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
     <!-- AXIOS -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  
+
 </head>
+
 <body>
-    <button type="button" class="btn btn-primary btn-lg" id="btn-cat-prod">Afiseaza proiecte</button>
-<div class="content">
-    <div class="row">
-        <!-- Coloana pentru navigatorul de proiecte -->
-        <div class="col-lg-4 side-nav" id="side-nav">
-           <p>Lista proiectelor in desfasurare. Pentru mai multe detalii despre un proiect apasati pe numele acestuia.</p><hr>
-            <!-- Lista cu proiecte -->
-          
-            <div class="projects-list" id="projects-list">
-                <ul>
-                </ul>
+    <button type="button"
+            class="btn btn-primary btn-lg"
+            id="btn-cat-prod">Afiseaza proiecte</button>
+    <div class="content">
+        <div class="row">
+            <!-- Coloana pentru navigatorul de proiecte -->
+            <div class="col-lg-4 side-nav"
+                 id="side-nav">
+                <p>Lista proiectelor in desfasurare. Pentru mai multe detalii despre un proiect apasati pe numele
+                    acestuia.</p>
+                <hr>
+                <!-- Lista cu proiecte -->
+
+                <div class="projects-list"
+                     id="projects-list">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+            <!-- Sectiunea principala -->
+            <div class="col-lg-8 main-area"
+                 id="main-area">
+                <p>Lista sarcinilor de efectuat aferenta proiectului <span id="project-name"></span></p>
+                <!-- Sarcina proiect -->
+                <div class="project-tasks">
+                    <div class="project-task-heading">
+                        <div style="display: inline-block;">
+                            <h2 id="task-name">Denumire</h2>
+                            <button type="button"
+                                    class="btn btn-danger btn-md"
+                                    id="btn-delete"
+                                    onclick="deleteTask('prezentare')">Sterge sarcina</button>
+                            <button type="button"
+                                    class="btn btn-warning btn-md"
+                                    id="btn-delete"
+                                    onclick="updateTask('testest')">Actualizeaza status</button>
+
+                        </div>
+                        <i class="far fa-calendar-check fa-7x"></i><br>
+                        <p style="font-weight: normal; font-size: 20px; display: inline-block;"
+                           id="task-description">de realizat coumincarea cu backendul</p><br>
+                        <p style="font-weight: normal; color: red; font-size: 20px; display: inline-block;"
+                           id="task-description">12.03.2021</p><br>
+                        <p style="font-weight: normal; font-size: 20px; display: inline-block;"
+                           id="task-description">In curs de realizare</p>
+                    </div>
+                    <hr>
+                    
+                </div>
+
+                <!-- END Sarcina proiect -->
             </div>
         </div>
-        <!-- Sectiunea principala -->
-        <div class="col-lg-8 main-area" id="main-area">
-            <p>Lista sarcinilor de efectuat aferenta proiectului <span id="project-name"></span></p>
-            <!-- Sarcina proiect -->
-            <div class="project-tasks">
-                <div class="project-task-heading">
-                    <div style="display: inline-block;">
-                        <h2 id="task-name">Denumire</h2>
-                        <button type="button" class="btn btn-danger btn-md" id="btn-delete" onclick="deleteTask('prezentare')">Sterge sarcina</button>
-                        <button type="button" class="btn btn-warning btn-md" id="btn-delete" onclick="updateTask('testest')">Actualizeaza status</button>
-
-                    </div>
-                    <i class="far fa-calendar-check fa-7x"></i><br>
-                           <p style="font-weight: normal; font-size: 20px; display: inline-block;" id="task-description">de realizat coumincarea cu backendul</p><br>
-                           <p style="font-weight: normal; color: red; font-size: 20px; display: inline-block;" id="task-description">12.03.2021</p><br>
-                           <p style="font-weight: normal; font-size: 20px; display: inline-block;" id="task-description">In curs de realizare</p>
-                        </div>
-                        <hr>
-                <div class="project-task-heading">
-                    <div style="display: inline-block;">
-                        <h2 id="task-name">Denumire</h2>
-                        <button type="button" class="btn btn-danger btn-md" id="btn-delete" >Sterge sarcina</button>
-                        <button type="button" class="btn btn-warning btn-md" id="btn-delete" onclick="deleteTask(1)">Actualizeaza status</button>
-
-                   
-                    </div>
-                    <i class="far fa-calendar-check fa-7x"></i>
-                           <p style="font-weight: normal; font-size: 20px; display: inline-block;" id="task-description">de realizat coumincarea cu backendul</p>
-                </div>
-                <div class="project-task-heading">
-                    <div style="display: inline-block;">
-                        <h2 id="task-name">Denumire</h2>
-                        <button type="button" class="btn btn-danger btn-md" id="btn-delete">Sterge sarcina</button>
-                        <button type="button" class="btn btn-warning btn-md" id="btn-delete" onclick="deleteTask(1)">Actualizeaza status</button>
-
-                    </div>
-                    <i class="far fa-calendar-check fa-7x"></i>
-                           <p style="font-weight: normal; font-size: 20px; display: inline-block;" id="task-description">de realizat coumincarea cu backendul</p>
-                </div>   
+        <!-- Zona C -->
+        <div class="row footer"
+             id="footer">
+            <div class="col-lg-6">
+                <h3>Insereaza o sarcina noua in proiect!</h3>
             </div>
-                <!-- END Sarcina proiect --> 
+            <div class="col-lg-6">
+                <form>
+                    <input type="text"
+                           id='insert-denumire'
+                           placeholder="Denumire sarcina">
+                    <input type="text"
+                           id='insert-descriere'
+                           placeholder="Descriere"><br>
+                    <input placeholder="Termen limita"
+                           id='insert-termen'
+                           class="textbox-n"
+                           type="text"
+                           onfocus="(this.type='date')"
+                           id="date">
+                    <input type="text"
+                           id='insert-imagine'
+                           placeholder="Imagine"><br>
+                    <input type="submit"
+                           class="btn btn-success btn-md"
+                           id="btn-insert"
+                           value="Insereaza">
+                </form>
+            </div>
         </div>
     </div>
-    <!-- Zona C -->
-    <div class="row footer" id="footer">
-        <div class="col-lg-6">
-            <h3>Insereaza o sarcina noua in proiect!</h3>
-        </div>
-        <div class="col-lg-6">
-            <form>
-                <input type="text" id='insert-denumire' placeholder="Denumire sarcina">
-                <input type="text" id='insert-descriere' placeholder="Descriere"><br>
-                <input placeholder="Termen limita" id='insert-termen' class="textbox-n" type="text" onfocus="(this.type='date')" id="date">
-                <input type="text" id='insert-imagine' placeholder="Imagine"><br>
-                <input type="submit" class="btn btn-success btn-md" id="btn-insert" value="Insereaza">
-            </form>
-        </div>
-    </div>  
-</div>
-  <!-- Java Script -->
-  <script src="index.js"></script>
+    <!-- Java Script -->
+    <script src="index.js"></script>
 </body>
+
 </html>
