@@ -47,7 +47,7 @@ if (isset($data['project']) &&isset($data['taskToUpdate'])) {
    $updateStatement1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
    prefix : <http://Alex&Andrei.ro#>
    DELETE WHERE {
-      :cautareDate :esteRealizat ?bol.
+      :".$data['taskToUpdate']." :esteRealizat ?bol.
    }
    ";
  $client->update($updateStatement1);
@@ -55,10 +55,10 @@ if (isset($data['project']) &&isset($data['taskToUpdate'])) {
   $updateStatement2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   prefix : <http://Alex&Andrei.ro#>
   INSERT{
-    :cautareDate :esteRealizat [:'true'^^xsd:boolean].
+    :".$data['taskToUpdate']." :esteRealizat [:'true'^^xsd:boolean].
   }
   WHERE{
-    ?prjName rdfs:label 'Business Intelligence'.
+    ?prjName rdfs:label '".$data['project']."'.
   }
  
   ";
