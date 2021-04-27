@@ -1,7 +1,6 @@
 <?php
 require 'vendor/autoload.php';
 
-
 $data = json_decode(file_get_contents("php://input"), TRUE);
 // primire cerere de afisare proiecte
 if (isset($data['initRequest']) && $data['initRequest'] == true) {
@@ -29,15 +28,36 @@ if (isset($data['retrieveTasks'])) {
 
 
 // primire cerere de stergere
-if (isset($data['taskToDelete'])) {
-  echo $data['taskToDelete'];
-  // var_dump(http_response_code(200)); // se arunca eroare
+if (isset($data['project']) && isset($data['taskToDelete'])) {
+  $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
+
+  $deleteStatement = "prefix : <http://Alex&Andrei.ro#>
+  DELETE {?prjName :deRealizat :" . $data['taskToDelete'] . "} WHERE {?prjName rdfs:label '".$data['project'] ."'}";
+  $client->update($deleteStatement);
 }
 
 // primire cerere de update
-if (isset($data['taskToUpdate'])) {
-  echo $data['taskToUpdate'];
-  // var_dump(http_response_code(200)); // se arunca eroare
+if (isset($data['project']) && isset($data['taskToUpdate'])) {
+  $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
+
+  $updateStatement1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  prefix : <http://Alex&Andrei.ro#>
+  DELETE WHERE {
+     :".$date['taskToUpdate']." :esteRealizat ?bol.
+  }
+  ";
+ $client->update($updateStatement1);
+ $updateStatement2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+ prefix : <http://Alex&Andrei.ro#>
+ INSERT{
+   :".$data['taskToUpdate']." :esteRealizat [:'true'^^xsd:boolean].
+ }
+ WHERE{
+   ?prjName rdfs:label '".$data['project']."'.
+ }
+ 
+ ";
+ $client->update($updateStatement2);
 }
 
 // primire cerere de inserare
@@ -53,5 +73,6 @@ if (
      :" . $data['insertDenumireTask'] . " 
      :areTermenLimita [:'" . $data['insertTermenTask'] . "'^^xsd:date]; 
      :esteRealizat [:'false'^^xsd:boolean]; :areImagine '" . $data['insertImagineTask'] . "'.} WHERE {?prjName rdfs:label '" . $data['project'] . "'}";
-   $client->update($insertStatement);
+  $client->update($insertStatement);
 }
+

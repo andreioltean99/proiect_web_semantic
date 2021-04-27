@@ -4,3 +4,57 @@ prefix : <http://Alex&Andrei.ro#>
 INSERT DATA {
   :WebSemantic :deRealizat :taskTest. :taskTest :areTermenLimita [:"1990-10-30"^^xsd:date]; :esteRealizat [:"false"^^xsd:boolean]; :areImagine "test.jpg".
 }
+
+
+
+PREFIX : <http://Alex&Andrei.ro#>
+DELETE
+{
+?prjName :deRealizat ?task.
+?task :esteRealizat ?nodVechi.
+}
+INSERT
+{
+?prjName :deRealizat ?task.
+?task :esteRealizat ?nodNou.
+}
+WHERE
+{
+?prjName rdfs:label 'Criptografie'.
+ BIND("tema1" AS ?task)
+?task :esteRealizat [:"false"^^xsd:boolean].
+}
+
+prefix : <http://Alex&Andrei.ro#>
+SELECT ?bol {
+:WebSemantic :deRealizat :frontEnd.
+ 	:frontEnd :esteRealizat ?bol.
+}
+
+
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix : <http://Alex&Andrei.ro#>
+DELETE  {
+?prjName :deRealizat :frontEnd.
+ 	:frontEnd :esteRealizat ?bol.
+}
+WHERE {
+  ?prjName rdfs:label 'Web Semantic'.
+}
+
+
+
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix : <http://Alex&Andrei.ro#>
+
+INSERT{
+  ?prjName :deRealizat :frontEnd.
+  :frontEnd :esteRealizat [:"true"^^xsd:boolean].
+}
+WHERE{
+  ?prjName rdfs:label 'Web Semantic'.
+}
+
+
