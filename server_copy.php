@@ -8,20 +8,21 @@ $data = json_decode(file_get_contents("php://input"), TRUE);
 if (isset($data['initRequest']) && $data['initRequest'] == true) {
   $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest");
   //echo "cererea a fost declansata";
-  
+
   // lista proiectelor
   $interogare = "SELECT ?denumire WHERE {?proiect rdfs:label ?denumire}";
   $rezultate = $client->query($interogare);
   $proiecte = array();
-  
+
   foreach ($rezultate as $rezultat) {
-   // array_push($proiecte,$rezultat->denumire->localName());
-     array_push($proiecte,$rezultat->denumire->__toString());
+    array_push($proiecte,$rezultat->denumire->getString());
+   
+    // print($proiecte);
   //  print($rezultat->denumire . "|");
   }
-   echo json_encode($proiecte);
-   
-  
+   //  json_encode($proiecte);
+   print($proiecte);
+  // var_dump(http_response_code(200)); // se arunca eroare
 }
 
 // primire cerere de afisare taskuri
@@ -109,4 +110,19 @@ if (
 }
 //----------------------------------------------------------------------
 
+$client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest");
+//echo "cererea a fost declansata";
+
+// lista proiectelor
+$interogare = "SELECT ?denumire WHERE {?proiect rdfs:label ?denumire}";
+$rezultate = $client->query($interogare);
+$proiecte = array();
+
+foreach ($rezultate as $rezultat) {
+ // array_push($proiecte,$rezultat->denumire->localName());
+   array_push($proiecte,$rezultat->denumire->__toString());
+//  print($rezultat->denumire . "|");
+}
+   json_encode($proiecte);
+ print_r($proiecte);
 

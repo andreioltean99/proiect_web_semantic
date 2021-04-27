@@ -11,19 +11,15 @@ btn1.addEventListener("click", function () {
   })
     .then(function (response) {
       document.getElementById('side-nav').style.display = 'block'; // se afiseaza sectiunea cu toate proiectele preluate din BD
-
-      var stringResponse = response.data;
-
-      var splitstring = stringResponse.split('|')
-      for (let i = 0; i < splitstring.length - 1; i++) {
-        var node = document.createElement("LI");
-        var textnode = document.createTextNode(splitstring[i]);
-        node.appendChild(textnode);
-        node.setAttribute('id', `${splitstring[i] + '_prj_id'}`);
-        node.setAttribute('onclick', `showTasksForAProject('${splitstring[i]}')`);
-        document.getElementById("projects-list").appendChild(node);
-        contentLoaded=true;
-      }
+       for (let i = 0; i < response.data.length; i++) {
+         var node = document.createElement("LI");
+         var textnode = document.createTextNode(response.data[i]);
+         node.appendChild(textnode);
+         node.setAttribute('id', `${response.data[i] + '_prj_id'}`);
+         node.setAttribute('onclick', `showTasksForAProject('${response.data[i]}')`);
+         document.getElementById("projects-list").appendChild(node);
+       }
+      contentLoaded=true;
     })
     .catch(function (error) {
       console.log(error);
