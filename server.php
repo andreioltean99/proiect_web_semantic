@@ -2,6 +2,8 @@
 require 'vendor/autoload.php';
 
 $data = json_decode(file_get_contents("php://input"), TRUE);
+//---------------------------------------------------------------
+//---------------------------------------------------------------
 // primire cerere de afisare proiecte
 if (isset($data['initRequest']) && $data['initRequest'] == true) {
   $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest");
@@ -26,7 +28,8 @@ if (isset($data['retrieveTasks'])) {
   // var_dump(http_response_code(200)); // se arunca eroare
 }
 
-
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
 // primire cerere de stergere
 if (isset($data['project']) && isset($data['taskToDelete'])) {
   $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
@@ -35,31 +38,34 @@ if (isset($data['project']) && isset($data['taskToDelete'])) {
   DELETE {?prjName :deRealizat :" . $data['taskToDelete'] . "} WHERE {?prjName rdfs:label '".$data['project'] ."'}";
   $client->update($deleteStatement);
 }
-
+//-------------------------------------------------------------------
+//-------------------------------------------------------------------
 // primire cerere de update
-if (isset($data['project']) && isset($data['taskToUpdate'])) {
+if (isset($data['project']) &&isset($data['taskToUpdate'])) {
   $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
 
-  $updateStatement1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-  prefix : <http://Alex&Andrei.ro#>
-  DELETE WHERE {
-     :".$date['taskToUpdate']." :esteRealizat ?bol.
-  }
-  ";
+   $updateStatement1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+   prefix : <http://Alex&Andrei.ro#>
+   DELETE WHERE {
+      :cautareDate :esteRealizat ?bol.
+   }
+   ";
  $client->update($updateStatement1);
- $updateStatement2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
- prefix : <http://Alex&Andrei.ro#>
- INSERT{
-   :".$data['taskToUpdate']." :esteRealizat [:'true'^^xsd:boolean].
- }
- WHERE{
-   ?prjName rdfs:label '".$data['project']."'.
- }
+ $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
+  $updateStatement2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  prefix : <http://Alex&Andrei.ro#>
+  INSERT{
+    :cautareDate :esteRealizat [:'true'^^xsd:boolean].
+  }
+  WHERE{
+    ?prjName rdfs:label 'Business Intelligence'.
+  }
  
- ";
- $client->update($updateStatement2);
+  ";
+  $client->update($updateStatement2);
 }
-
+//-------------------------------------------------------------------
+//-------------------------------------------------------------------
 // primire cerere de inserare
 if (
   isset($data['project']) && isset($data['insertDenumireTask']) && isset($data['insertDescriereTask']) && isset($data['insertTermenTask'])
@@ -75,4 +81,5 @@ if (
      :esteRealizat [:'false'^^xsd:boolean]; :areImagine '" . $data['insertImagineTask'] . "'.} WHERE {?prjName rdfs:label '" . $data['project'] . "'}";
   $client->update($insertStatement);
 }
+//----------------------------------------------------------------------
 
