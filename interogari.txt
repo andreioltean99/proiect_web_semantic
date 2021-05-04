@@ -79,3 +79,15 @@ WHERE{
 
 
 
+
+PREFIX : <http://Alex&Andrei.ro#>
+
+  SELECT ?task ?relatie ?valoare ?imagine ?descriere WHERE {
+   :WebSemantic ?relation ?task. 
+   ?task ?relatie ?nod.
+  	?task :areImagine ?imagine. 
+  ?nod <http://Alex&Andrei.ro#> ?valoare.
+  }
+
+
+
