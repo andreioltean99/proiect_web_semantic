@@ -26,7 +26,44 @@ if (isset($data['initRequest']) && $data['initRequest'] == true) {
 
 // primire cerere de afisare taskuri
 if (isset($data['retrieveTasks'])) {
-  echo $data['retrieveTasks'];
+
+    //eliminare spatiu dintre cuvinte
+    $proiectul=str_replace(' ','',$data['retrieveTasks']);
+    $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest");
+    $interogare = "PREFIX : <http://Alex&Andrei.ro#>
+SELECT ?task ?relatie ?valoare ?imagine ?descriere WHERE {
+  ?task ?relatie ?nod.
+  ?task :areImagine ?imagine.
+  ?task :areDescriere ?descriere.
+  ?nod <http://Alex&Andrei.ro#> ?valoare.
+  {
+  SELECT ?task WHERE {
+   :".$proiectul."?relation ?task. 
+  }
+}
+}";
+    $rezultate = $client->query($interogare);
+    $taskuri=array();
+    $imagini=array();
+    $descrieri=array();
+    $valori=array();
+    foreach ($rezultate as $rezultat) {
+      array_push($taskuri,$rezultat->task->__toString());
+      array_push($imagini,$rezultat->imagine->__toString());
+      array_push($descrieri,$rezultat->descriere->__toString());
+      array_push($valori,$rezultat->valoare->__toString());
+    }
+    $task1=array();
+    $task2=array();
+    $task3=array();
+        array_push($task1,$taskuri[0],$imagini[0],$descrieri[0],$valori[0],$valori[1]);
+        array_push($task2,$taskuri[2],$imagini[2],$descrieri[2],$valori[2],$valori[3]);
+        array_push($task3,$taskuri[4],$imagini[4],$descrieri[4],$valori[4],$valori[5]);
+
+       echo  json_encode($task1);
+       echo  json_encode($task2);
+       echo json_encode($task3);
+
   // var_dump(http_response_code(200)); // se arunca eroare
 }
 

@@ -5,49 +5,64 @@
 :frontEnd :areTermenLimita [:"2021-04-30"^^xsd:date].
 :frontEnd :esteRealizat [:"true"^^xsd:boolean].
 :frontEnd :areImagine "frontEnd.jpg".
+:frontEnd :areDescriere "Realizare parte de html,css si javascript".
 :backEnd :areTermenLimita [:"2021-05-04"^^xsd:date].
 :backEnd :esteRealizat [:"true"^^xsd:boolean].
 :backEnd :areImagine "backEnd.jpg".
+:backEnd :areDescriere "Realizarea backend-ului in php ".
 :bazaGrafuri :areTermenLimita [:"2021-05-07"^^xsd:date].
 :bazaGrafuri :esteRealizat [:"false"^^xsd:boolean].
 :bazaGrafuri :areImagine "bazaDeGrafuri.jpg".
+:bazaGrafuri :areDescriere "Realizarea grafului in RDF4J".
 :BigData :deRealizat :introducere, :pregatireDate, :implementareInR; rdfs:label "Big Data";.
 :introducere :areTermenLimita [:"2021-04-25"^^xsd:date].
 :introducere :esteRealizat [:"true"^^xsd:boolean].
 :introducere :areImagine "introducere.jpg".
+:introducere :areDescriere "Crearea introducerii intr-o pagina".
 :pregatireDate :areTermenLimita [:"2021-04-29"^^xsd:date].
 :pregatireDate :esteRealizat [:"true"^^xsd:boolean].
 :pregatireDate :areImagine "pregatireDate.jpg".
+:pregatireDate :areDescriere "Cautarea datelor potrivite in concordanta cu introducerea".
 :implementareInR :areTermenLimita [:"2021-04-30"^^xsd:date].
 :implementareInR :esteRealizat [:"false"^^xsd:boolean].
 :implementareInR :areImagine "implementareInR.jpg".
+:implementareInR :areDescriere "Implementarea proceselor in limbajul R".
 :BusinessIntelligence :deRealizat :cautareDate, :curatareDate, :incarcareInTableau; rdfs:label "Business Intelligence";.
 :cautareDate :areTermenLimita [:"2021-05-15"^^xsd:date].
 :cautareDate :esteRealizat [:"false"^^xsd:boolean].
 :cautareDate :areImagine "cautareDate.jpg".
+:cautareDate :areDescriere "Pas de cautare a datelor".
 :curatareDate :areTermenLimita [:"2021-05-17"^^xsd:date].
 :curatareDate :esteRealizat [:"false"^^xsd:boolean].
 :curatareDate :areImagine "curatareDate.jpg".
+:curatareDate :areDescriere "Pasul de curatare a datelor".
 :incarcareInTableau :areTermenLimita [:"2021-05-18"^^xsd:date].
 :incarcareInTableau :esteRealizat [:"false"^^xsd:boolean].
-:incarcareInTableau :areImagine "incarcareInTableau .jpg".
+:incarcareInTableau :areImagine "incarcareInTableau.jpg".
+:incarcareInTableau :areDescriere "Pasul de incarcare a datelor in Tableau".
 :APSI :deRealizat :raportAnaliza, :proiectareLogica, :descriereAlgoritmi; rdfs:label "APSI";.
 :raportAnaliza :areTermenLimita [:"2021-04-10"^^xsd:date].
 :raportAnaliza :esteRealizat [:"true"^^xsd:boolean].
 :raportAnaliza :areImagine "raportAnaliza.jpg".
+:raportAnaliza :areDescriere "Prima parte a proiectului".
 :proiectareLogica :areTermenLimita [:"2021-04-22"^^xsd:date].
 :proiectareLogica :esteRealizat [:"true"^^xsd:boolean].
 :proiectareLogica :areImagine "proiectareLogica.jpg".
+:proiectareLogica :areDescriere "A doua parte a proiectului".
 :descriereAlgoritmi :areTermenLimita [:"2021-05-01"^^xsd:date].
 :descriereAlgoritmi :esteRealizat [:"true"^^xsd:boolean].
 :descriereAlgoritmi :areImagine "descriereAlgoritmi.jpg".
+:descriereAlgoritmi :areDescriere "A treia parte a proiectului".
 :Criptografie :deRealizat :tema1, :tema2, :tema3; rdfs:label "Criptografie";.
 :tema1 :areTermenLimita [:"2021-04-07"^^xsd:date].
 :tema1 :esteRealizat [:"true"^^xsd:boolean].
 :tema1 :areImagine "tema1.jpg".
+:tema1 :areDescriere "Calcul invers modular".
 :tema2 :areTermenLimita [:"2021-04-13"^^xsd:date].
 :tema2 :esteRealizat [:"true"^^xsd:boolean].
 :tema2 :areImagine "tema2.jpg".
+:tema2 :areDescriere "Primalitatea a doua numere".
 :tema3 :areTermenLimita [:"2021-05-19"^^xsd:date].
 :tema3 :esteRealizat [:"true"^^xsd:boolean].
 :tema3 :areImagine "tema3.jpg".
+:tema3 :areDescriere "Algorimtul RSA".
