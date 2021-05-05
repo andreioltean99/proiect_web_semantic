@@ -1,0 +1,141 @@
+Index: server.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\nrequire 'vendor/autoload.php';\r\n\r\n$data = json_decode(file_get_contents(\"php://input\"), TRUE);\r\n//---------------------------------------------------------------\r\n//---------------------------------------------------------------\r\n// primire cerere de afisare proiecte\r\nif (isset($data['initRequest']) && $data['initRequest'] == true) {\r\n  $client = new EasyRdf\\Sparql\\Client(\"http://localhost:8080/rdf4j-server/repositories/grafetest\");\r\n  //echo \"cererea a fost declansata\";\r\n  \r\n  // lista proiectelor\r\n  $interogare = \"SELECT ?denumire WHERE {?proiect rdfs:label ?denumire}\";\r\n  $rezultate = $client->query($interogare);\r\n  $proiecte = array();\r\n  \r\n  foreach ($rezultate as $rezultat) {\r\n   // array_push($proiecte,$rezultat->denumire->localName());\r\n     array_push($proiecte,$rezultat->denumire->__toString());\r\n  //  print($rezultat->denumire . \"|\");\r\n  }\r\n   echo json_encode($proiecte);\r\n   \r\n  \r\n}\r\n\r\n// primire cerere de afisare taskuri\r\nif (isset($data['retrieveTasks'])) {\r\n\r\n    //eliminare spatiu dintre cuvinte\r\n    $proiectul=str_replace(' ','',$data['retrieveTasks']);\r\n    $client = new EasyRdf\\Sparql\\Client(\"http://localhost:8080/rdf4j-server/repositories/grafetest\");\r\n    $interogare = \"PREFIX : <http://Alex&Andrei.ro#>\r\nSELECT ?task ?relatie ?valoare ?imagine ?descriere WHERE {\r\n  ?task ?relatie ?nod.\r\n  ?task :areImagine ?imagine.\r\n  ?task :areDescriere ?descriere.\r\n  ?nod <http://Alex&Andrei.ro#> ?valoare.\r\n  {\r\n  SELECT ?task WHERE {\r\n   :\".$proiectul.\"?relation ?task. \r\n  }\r\n}\r\n}\";\r\n    $rezultate = $client->query($interogare);\r\n    $taskuri=array();\r\n    $imagini=array();\r\n    $descrieri=array();\r\n    $valori=array();\r\n    foreach ($rezultate as $rezultat) {\r\n      array_push($taskuri,$rezultat->task->__toString());\r\n      array_push($imagini,$rezultat->imagine->__toString());\r\n      array_push($descrieri,$rezultat->descriere->__toString());\r\n      array_push($valori,$rezultat->valoare->__toString());\r\n    }\r\n    $task1=array();\r\n    $task2=array();\r\n    $task3=array();\r\n        array_push($task1,$taskuri[0],$imagini[0],$descrieri[0],$valori[0],$valori[1]);\r\n        array_push($task2,$taskuri[2],$imagini[2],$descrieri[2],$valori[2],$valori[3]);\r\n        array_push($task3,$taskuri[4],$imagini[4],$descrieri[4],$valori[4],$valori[5]);\r\n\r\n       echo  json_encode($task1);\r\n       echo  json_encode($task2);\r\n       echo json_encode($task3);\r\n\r\n  // var_dump(http_response_code(200)); // se arunca eroare\r\n}\r\n\r\n//--------------------------------------------------------------------\r\n//--------------------------------------------------------------------\r\n// primire cerere de stergere\r\nif (isset($data['project']) && isset($data['taskToDelete'])) {\r\n  $client = new EasyRdf\\Sparql\\Client(\"http://localhost:8080/rdf4j-server/repositories/grafetest/statements\");\r\n\r\n  $deleteStatement = \"prefix : <http://Alex&Andrei.ro#>\r\n  DELETE {?prjName :deRealizat :\" . $data['taskToDelete'] . \"} WHERE {?prjName rdfs:label '\".$data['project'] .\"'}\";\r\n  $client->update($deleteStatement);\r\n}\r\n//-------------------------------------------------------------------\r\n//-------------------------------------------------------------------\r\n// primire cerere de update\r\nif (isset($data['project']) &&isset($data['taskToUpdate'])) {\r\n\r\n  $taskStatus; $taskStatusUpdate;\r\n$client = new EasyRdf\\Sparql\\Client(\"http://localhost:8080/rdf4j-server/repositories/grafetest\");\r\n\r\n$interogare = \"PREFIX : <http://Alex&Andrei.ro#>\r\nSELECT ?nod ?task ?valoare WHERE {\r\n  :TEST :esteRealizat ?nod.\r\n  ?nod <http://Alex&Andrei.ro#> ?valoare.\r\n  {\r\n  SELECT ?task WHERE {\r\n   :WebSemantic ?relation :TEST.  }}}\";\r\n$rezultate = $client->query($interogare);\r\n\r\n foreach ($rezultate as $rezultat) {\r\n  $taskStatus = $rezultat->valoare->getValue(); \r\n}\r\nif($taskStatus){\r\n  $taskStatusUpdate = 'false';\r\n}else{\r\n  $taskStatusUpdate = 'true';\r\n}\r\n\r\n\r\n  $client = new EasyRdf\\Sparql\\Client(\"http://localhost:8080/rdf4j-server/repositories/grafetest/statements\");\r\n\r\n   $updateStatement1 = \"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n   prefix : <http://Alex&Andrei.ro#>\r\n   DELETE WHERE {\r\n      :\".$data['taskToUpdate'].\" :esteRealizat ?bol.\r\n   }\r\n   \";\r\n $client->update($updateStatement1);\r\n $client = new EasyRdf\\Sparql\\Client(\"http://localhost:8080/rdf4j-server/repositories/grafetest/statements\");\r\n\r\n  $updateStatement2 = \"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n  prefix : <http://Alex&Andrei.ro#>\r\n  INSERT{\r\n    :\".$data['taskToUpdate'].\" :esteRealizat [:'\".$taskStatusUpdate.\"'^^xsd:boolean].\r\n  }\r\n  WHERE{\r\n    ?prjName rdfs:label '\".$data['project'].\"'.\r\n  }\r\n \r\n  \";\r\n  $client->update($updateStatement2);\r\n}\r\n//-------------------------------------------------------------------\r\n//-------------------------------------------------------------------\r\n// primire cerere de inserare\r\nif (\r\n  isset($data['project']) && isset($data['insertDenumireTask']) && isset($data['insertDescriereTask']) && isset($data['insertTermenTask'])\r\n  && isset($data['insertImagineTask'])\r\n) {\r\n  $client = new EasyRdf\\Sparql\\Client(\"http://localhost:8080/rdf4j-server/repositories/grafetest/statements\");\r\n\r\n  $insertStatement = \"prefix : <http://Alex&Andrei.ro#>\r\n   INSERT {\r\n     ?prjName :deRealizat :\" . $data['insertDenumireTask'] . \". \r\n     :\" . $data['insertDenumireTask'] . \" \r\n     :areTermenLimita [:'\" . $data['insertTermenTask'] . \"'^^xsd:date]; \r\n     :esteRealizat [:'false'^^xsd:boolean]; :areImagine '\" . $data['insertImagineTask'] . \"'.} WHERE {?prjName rdfs:label '\" . $data['project'] . \"'}\";\r\n  $client->update($insertStatement);\r\n}\r\n//----------------------------------------------------------------------\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server.php	(revision 187aa8d7b4f150cafa51ab95806c5ec4994c22cb)
++++ server.php	(date 1620130679821)
+@@ -53,16 +53,20 @@
+       array_push($descrieri,$rezultat->descriere->__toString());
+       array_push($valori,$rezultat->valoare->__toString());
+     }
++    print_r($taskuri);
++    print_r($imagini);
++    print_r($descrieri);
++    print_r($valori);
++
+     $task1=array();
+     $task2=array();
+     $task3=array();
++
+         array_push($task1,$taskuri[0],$imagini[0],$descrieri[0],$valori[0],$valori[1]);
+-        array_push($task2,$taskuri[2],$imagini[2],$descrieri[2],$valori[2],$valori[3]);
+-        array_push($task3,$taskuri[4],$imagini[4],$descrieri[4],$valori[4],$valori[5]);
++        array_push($task1,$taskuri[2],$imagini[2],$descrieri[2],$valori[2],$valori[3]);
++        array_push($task1,$taskuri[4],$imagini[4],$descrieri[4],$valori[4],$valori[5]);
+ 
+        echo  json_encode($task1);
+-       echo  json_encode($task2);
+-       echo json_encode($task3);
+ 
+   // var_dump(http_response_code(200)); // se arunca eroare
+ }
+@@ -145,5 +149,40 @@
+   $client->update($insertStatement);
+ }
+ //----------------------------------------------------------------------
++/*
++$proiectul=str_replace(' ','',$data['retrieveTasks']);
++$client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest");
++$interogare = "PREFIX : <http://Alex&Andrei.ro#>
++SELECT ?task ?relatie ?valoare ?imagine ?descriere WHERE {
++  ?task ?relatie ?nod.
++  ?task :areImagine ?imagine.
++  ?task :areDescriere ?descriere.
++  ?nod <http://Alex&Andrei.ro#> ?valoare.
++  {
++  SELECT ?task WHERE {
++   :".$proiectul."?relation ?task. 
++  }
++}
++}";
++$rezultate = $client->query($interogare);
++$taskuri=array();
++$imagini=array();
++$descrieri=array();
++$valori=array();
++foreach ($rezultate as $rezultat) {
++    array_push($taskuri,$rezultat->task->__toString());
++    array_push($imagini,$rezultat->imagine->__toString());
++    array_push($descrieri,$rezultat->descriere->__toString());
++    array_push($valori,$rezultat->valoare->__toString());
++}
++$task1=array();
++$task2=array();
++$task3=array();
++array_push($task1,$taskuri[0],$imagini[0],$descrieri[0],$valori[0],$valori[1]);
++array_push($task2,$taskuri[2],$imagini[2],$descrieri[2],$valori[2],$valori[3]);
++array_push($task3,$taskuri[4],$imagini[4],$descrieri[4],$valori[4],$valori[5]);
+ 
+-
++echo  json_encode($task1);
++echo  json_encode($task2);
++echo json_encode($task3);
++*/
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"BranchesTreeState\">\r\n    <expand>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"LOCAL_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n    </expand>\r\n    <select />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"94b2fe7e-075a-4436-bd0e-3fcc69f140a2\" name=\"Default Changelist\" comment=\"\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ComposerSettings\" synchronizationState=\"SYNCHRONIZE\">\r\n    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>\r\n    <execution />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"PhpWorkspaceProjectConfiguration\">\r\n    <include_path>\r\n      <path value=\"$PROJECT_DIR$/vendor/easyrdf/easyrdf\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/composer\" />\r\n    </include_path>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"1rhvakm8WNwKgdgw8PkeOrh7Cdo\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"94b2fe7e-075a-4436-bd0e-3fcc69f140a2\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1619441201934</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1619441201934</updated>\r\n      <workItem from=\"1619441203049\" duration=\"1624000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision 187aa8d7b4f150cafa51ab95806c5ec4994c22cb)
++++ .idea/workspace.xml	(date 1620157811410)
+@@ -19,13 +19,16 @@
+     <select />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="94b2fe7e-075a-4436-bd0e-3fcc69f140a2" name="Default Changelist" comment="" />
++    <list default="true" id="94b2fe7e-075a-4436-bd0e-3fcc69f140a2" name="Default Changelist" comment="new update">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/server.php" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
+-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
++  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+     <execution />
+   </component>
+@@ -61,7 +64,17 @@
+       <option name="presentableId" value="Default" />
+       <updated>1619441201934</updated>
+       <workItem from="1619441203049" duration="1624000" />
++      <workItem from="1620127930977" duration="4776000" />
++      <workItem from="1620152074928" duration="2393000" />
++    </task>
++    <task id="LOCAL-00001" summary="new update">
++      <created>1620127972586</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1620127972586</updated>
+     </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -77,5 +90,16 @@
+         </entry>
+       </map>
+     </option>
++    <option name="oldMeFiltersMigrated" value="true" />
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="new update" />
++    <option name="LAST_COMMIT_MESSAGE" value="new update" />
++  </component>
++  <component name="WindowStateProjectService">
++    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1620127975626">
++      <screen x="0" y="0" width="1536" height="824" />
++    </state>
++    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1620127975626" />
+   </component>
+ </project>
+\ No newline at end of file

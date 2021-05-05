@@ -171,7 +171,7 @@ btnInsert.addEventListener('mouseover', function () {
   let imagineTask = document.getElementById('insert-imagine').value;
   //  console.log(denumire);
   // Se efectueaza cerea catre server daca au fost completate toate campurile
-  if (currentProject != '' && denumireTask != '' && descriereTask != '' && termenTask != '' && imagineTask != '') {
+  if (currentProject !== '' && denumireTask !== '' && descriereTask !== '' && termenTask !== '' && imagineTask !== '') {
     axios.post('server.php', {
       project: currentProject,
       insertDenumireTask: denumireTask,

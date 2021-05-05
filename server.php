@@ -134,16 +134,28 @@ if (
 ) {
   $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
 
-  $insertStatement = "prefix : <http://Alex&Andrei.ro#>
-  
-   INSERT {
-     ?prjName :deRealizat :" . $data['insertDenumireTask'] . ". 
-     :" . $data['insertDenumireTask'] . " 
-     :areTermenLimita [:'" . $data['insertTermenTask'] . "'^^xsd:date]; 
-     :esteRealizat [:'false'^^xsd:boolean]; :areImagine '" . $data['insertImagineTask'] . "'.} WHERE {?prjName rdfs:label '" . $data['project'] . "'}";
+  //$data['project']=str_replace(" ","",$data['project']);
+  $insertStatement = "PREFIX : <http://Alex&Andrei.ro#>
+INSERT DATA {GRAPH <http://Alex&Andrei.ro#".$data['project']."> {:".$data['project']. ":deRealizat :".$data['insertDenumireTask'].".
+     :".$data['insertDenumireTask']."  :areTermenLimita ".$data['insertTermenTask']."; 
+     :esteRealizat [:'false'^^xsd:boolean];
+     :areImagine ".$data['insertImagineTask'].";
+     :areDescriere ".$data['insertDescriereTask']."; 
+  }
+}";
   $client->update($insertStatement);
 }
 //----------------------------------------------------------------------
 
+   $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest/statements");
 
-  
+  // $data['project']=str_replace(" ","",$data['project']);
+   $insertStatement = "PREFIX : <http://Alex&Andrei.ro#>
+INSERT DATA {GRAPH <http://Alex&Andrei.ro#WebSemantic> {:WebSemantic :deRealizat :willSee10.
+     :willSee10  :areTermenLimita [:'[2021-08-09]'^^xsd:date];
+     :esteRealizat [:'false'^^xsd:boolean];
+     :areImagine 'imagine.hh';
+     :areDescriere 'Task nou'; 
+  }
+}";
+    $client->update($insertStatement);
