@@ -180,7 +180,7 @@ btnInsert.addEventListener('mouseover', function () {
       insertImagineTask: imagineTask
     })
       .then(function (response) {
-        // console.log(response);
+         console.log(response);
         //se apeleaza din nou functia showTasksForAProject pentru a actualiza informatia
         showTasksForAProject(currentProject);
       })

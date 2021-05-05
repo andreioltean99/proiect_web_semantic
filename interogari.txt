@@ -81,13 +81,14 @@ WHERE{
 
 
 PREFIX : <http://Alex&Andrei.ro#>
-
-  SELECT ?task ?relatie ?valoare ?imagine ?descriere WHERE {
-   :WebSemantic ?relation ?task. 
-   ?task ?relatie ?nod.
-  	?task :areImagine ?imagine. 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  SELECT ?prj ?task ?descriere ?valoare ?imagine WHERE {
+   ?prj :deRealizat ?task.
+  ?task ?relatie ?nod.
+  ?task :areImagine ?imagine.
   ?nod <http://Alex&Andrei.ro#> ?valoare.
-  }
+	?prj rdfs:label "Web Semantic".
+}
 
 
 
