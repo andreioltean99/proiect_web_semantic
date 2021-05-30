@@ -79,7 +79,7 @@ if (isset($data['project']) && isset($data['taskToDelete'])) {
 //-------------------------------------------------------------------
 // primire cerere de update
 if (isset($data['project']) &&isset($data['taskToUpdate'])) {
-
+  $prj=str_replace(" ","",$data['project']);
   $taskStatus; $taskStatusUpdate;
 $client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafetest");
 
@@ -89,7 +89,7 @@ SELECT ?nod ?task ?valoare WHERE {
   ?nod <http://Alex&Andrei.ro#> ?valoare.
   {
   SELECT ?task WHERE {
-   :WebSemantic ?relation :".$data['taskToUpdate'].".  }}}";
+   :".$prj." ?relation :".$data['taskToUpdate'].".  }}}";
 $rezultate = $client->query($interogare);
 
  foreach ($rezultate as $rezultat) {
